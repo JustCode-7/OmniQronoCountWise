@@ -1,4 +1,4 @@
-import { ApplicationConfig, isDevMode } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 
@@ -10,7 +10,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes), 
     provideAnimations(),
     provideServiceWorker('ngsw-worker.js', {
-      enabled: !isDevMode(),
+      enabled: false, // Disabled for development to prevent errors with missing icon files
       registrationStrategy: 'registerWhenStable:30000'
     })
   ]

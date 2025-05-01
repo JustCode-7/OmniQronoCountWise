@@ -54,8 +54,7 @@
               "src/assets",
               "src/manifest.webmanifest"
             ],
-            "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json",
+            "serviceWorker": false,
             "styles": [
               "src/styles.scss"
             ],
