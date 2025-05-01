@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Icon Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        canvas {
+            border: 1px solid #ccc;
+            margin: 20px 0;
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px;
+            background-color: #673ab7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #5e35b1;
+        }
+        .sizes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .size-btn {
+            padding: 5px 10px;
+            background-color: #303030;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .size-btn:hover {
+            background-color: #424242;
+        }
+    </style>
+</head>
+<body>
+    <h1>PWA Icon Generator für OmniQronoCountWise</h1>
+    <p>Dieses Tool erstellt einfache Icons für die PWA-Funktionalität.</p>
+    
+    <div class="controls">
+        <label for="bgColor">Hintergrundfarbe:</label>
+        <input type="color" id="bgColor" value="#673ab7">
+        
+        <label for="textColor">Textfarbe:</label>
+        <input type="color" id="textColor" value="#ffffff">
+        
+        <label for="text">Text (max. 4 Zeichen):</label>
+        <input type="text" id="text" value="OQCW" maxlength="4">
+    </div>
+    
+    <div class="sizes">
+        <button class="size-btn" data-size="72">72x72</button>
+        <button class="size-btn" data-size="96">96x96</button>
+        <button class="size-btn" data-size="128">128x128</button>
+        <button class="size-btn" data-size="144">144x144</button>
+        <button class="size-btn" data-size="152">152x152</button>
+        <button class="size-btn" data-size="192">192x192</button>
+        <button class="size-btn" data-size="384">384x384</button>
+        <button class="size-btn" data-size="512">512x512</button>
+    </div>
+    
+    <canvas id="iconCanvas" width="512" height="512"></canvas>
+    
+    <button id="downloadBtn">Icon herunterladen</button>
+    
+    <script>
+        const canvas = document.getElementById('iconCanvas');
+        const ctx = canvas.getContext('2d');
+        const bgColorInput = document.getElementById('bgColor');
+        const textColorInput = document.getElementById('textColor');
+        const textInput = document.getElementById('text');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const sizeBtns = document.querySelectorAll('.size-btn');
+        
+        let currentSize = 512;
+        
+        function drawIcon() {
+            // Set canvas size
+            canvas.width = currentSize;
+            canvas.height = currentSize;
+            
+            // Get values
+            const bgColor = bgColorInput.value;
+            const textColor = textColorInput.value;
+            const text = textInput.value.substring(0, 4);
+            
+            // Draw background
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw text
+            ctx.fillStyle = textColor;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // Calculate font size based on canvas size
+            const fontSize = Math.floor(canvas.width / 3);
+            ctx.font = `bold ${fontSize}px Arial`;
+            
+            // Draw text in center
+            ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+        }
+        
+        // Initial draw
+        drawIcon();
+        
+        // Event listeners
+        bgColorInput.addEventListener('input', drawIcon);
+        textColorInput.addEventListener('input', drawIcon);
+        textInput.addEventListener('input', drawIcon);
+        
+        // Size buttons
+        sizeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentSize = parseInt(btn.dataset.size);
+                drawIcon();
+            });
+        });
+        
+        // Download button
+        downloadBtn.addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = `icon-${currentSize}x${currentSize}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+    </script>
+</body>
+</html>
