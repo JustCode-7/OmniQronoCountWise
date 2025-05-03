@@ -16,7 +16,9 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run build:ci -- --base-href /omni-qrono-count-wise/ --deploy-url /omni-qrono-count-wise/
+      - run: npm run build:prod
+
+      - run: npm run deploy
 
       - name: Add a 404 workaround # https://angular.io/guide/deployment#server-configuration
         working-directory: dist/omni-qrono-count-wise/browser
