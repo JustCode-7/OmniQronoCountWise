@@ -1,0 +1,10 @@
+<mat-toolbar color="primary" class="justify-content-between">
+    <code>{{this.title}}</code>
+    <div [ngStyle]="{'font-size': 80+'%','color': '#3d6065'}" class="p-3 d-flex justify-content-xxl-end">
+        <mat-icon>linear_scale</mat-icon>
+        <span class="ms-1">appversion: {{appVersion}}</span>
+    </div>
+</mat-toolbar>
+<div class="container mt-3">
+    <router-outlet></router-outlet>
+</div>

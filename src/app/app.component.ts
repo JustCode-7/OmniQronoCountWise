@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule} from "@angular/material/icon";
+import {environment} from "../environments/environment";
 
 @Component({
   selector: 'app-root',
@@ -11,18 +13,13 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     RouterOutlet,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
-  template: `
-    <mat-toolbar color="primary">
-      <span>{{title}}</span>
-    </mat-toolbar>
-    <div class="container mt-3">
-      <router-outlet></router-outlet>
-    </div>
-  `,
+  templateUrl: 'app.component.html',
   styles: []
 })
 export class AppComponent {
-  title = 'OmniQronoCountWise';
+  public title = 'OmniQronoCountWise';
+  appVersion: string = environment.appVersion;
 }
