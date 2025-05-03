@@ -16,10 +16,10 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run build:ci -- --base-href /randomize-app/ --deploy-url /randomize-app/
+      - run: npm run build:ci -- --base-href /omni-qrono-count-wise/ --deploy-url /omni-qrono-count-wise/
 
       - name: Add a 404 workaround # https://angular.io/guide/deployment#server-configuration
-        working-directory: dist/randomize-app/browser
+        working-directory: dist/omni-qrono-count-wise/browser
         run: cp index.html 404.html
 
       - name: Deploy to GitHub Pages
