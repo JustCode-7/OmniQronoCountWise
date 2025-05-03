@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>OmniQronoCountWise</title>
+  <script>
+    // Store the current URL path
+    var path = window.location.pathname;
+    var search = window.location.search;
+    var hash = window.location.hash;
+    
+    // Redirect to the index.html with the path as a query parameter
+    var redirectUrl = '/OmniQronoCountWise/index.html';
+    
+    // Preserve the original path in the URL
+    if (path !== '/OmniQronoCountWise/' && path !== '/OmniQronoCountWise/index.html') {
+      redirectUrl = '/OmniQronoCountWise/index.html' + hash;
+    }
+    
+    window.location.replace(redirectUrl);
+  </script>
+</head>
+<body>
+  <p>Redirecting to the application...</p>
+</body>
+</html>
