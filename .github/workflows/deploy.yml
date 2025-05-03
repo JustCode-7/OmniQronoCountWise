@@ -27,6 +27,6 @@ jobs:
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist/omni-qrono-count-wise
+          folder: dist/omni-qrono-count-wise/browser
           branch: gh-pages
           clean: true
