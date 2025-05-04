@@ -1,0 +1,17 @@
+<div class="counter-container">
+    <div class="display-container">
+        <div class="clock-display">
+            {{ counter < 10 ? '0' + counter : counter }}
+        </div>
+    </div>
+    <div class="reset-button-container">
+        <button mat-raised-button color="warn" class="reset-button" (click)="resetCounter()">
+            <mat-icon>refresh</mat-icon> Reset
+        </button>
+    </div>
+    <div class="button-container">
+        <button mat-fab color="primary" class="plus-button" (click)="incrementCounter()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+</div>
