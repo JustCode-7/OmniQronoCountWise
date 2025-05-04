@@ -30,7 +30,7 @@ export class AppComponent {
     public title = 'OmniQronoCountWise';
     appVersion: string = environment.appVersion;
     tabs: TabMenueItems[] = [
-        {text: "BadBehavior-Counter", route: "behavior-counter"},
+        {text: "Bad-Behavior-Counter", route: "behavior-counter"},
         {text: "Work-Timer", route: "timer"},
         {text: "QR-Code", route: "qr"},
         {text: "TT-Counter", route: "tt-counter"},
