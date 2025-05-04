@@ -1,0 +1,11 @@
+<div class="d-flex flex-column justify-content-center" mat-dialog-content>
+  <div>
+    <video autoplay class="ratio ratio-4x3 vw-25 vh-25 justify-content-center" controls id="myVidPlayer" muted></video>
+  </div>
+</div>
+<div class="d-flex flex-column mt-2 " mat-dialog-content>
+  <button (click)="closeWindowOrStopScan()" class="mt-3 btn {{$btnstopcolor}}" mat-button>
+    {{$stopAndOpen}}
+  </button>
+  <br/>
+</div>

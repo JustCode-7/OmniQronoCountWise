@@ -9,8 +9,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "ng build --configuration production",
-    "watch": "ng build --watch --configuration development",
-    "deploy": "ng build --configuration production --base-href=\"/OmniQronoCountWise/\" && npx angular-cli-ghpages --dir=dist/omni-qrono-count-wise"
+    "watch": "ng build --watch --configuration development"
   },
   "private": true,
   "engines": {
@@ -30,6 +29,8 @@
     "@angular/router": "^19.0.0",
     "@angular/service-worker": "^19.2.9",
     "bootstrap": "^5.3.3",
+    "qr-scanner": "^1.4.2",
+    "qrcode": "^1.5.4",
     "rxjs": "~7.8.1",
     "sass": "^1.87.0",
     "tslib": "^2.6.2",
@@ -40,6 +41,7 @@
     "@angular/cli": "^19.0.0",
     "@angular/compiler-cli": "^19.0.0",
     "@angular/pwa": "^19.2.10",
+    "@types/qrcode": "^1.5.5",
     "typescript": "~5.5.0"
   }
 }

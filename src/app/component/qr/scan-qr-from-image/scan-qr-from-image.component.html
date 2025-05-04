@@ -1,0 +1,32 @@
+<div class="d-flex justify-content-center p-3 my-2 mx-2">
+  <input #file [multiple]="false" style="display:none" type="file"/>
+  <button (click)="qrShareService.openExplorerForfileImport(file)" color="primary"
+          mat-raised-button>
+    scan QR-code from saved Image
+  </button>
+</div>
+<div class="d-flex justify-content-center p-3 my-2 mx-2">
+  <p>
+    <mat-form-field (paste)="qrShareService.onPaste($event)" appearance="fill">
+      <mat-label>paste from clipboard</mat-label>
+      <input matInput placeholder="Placeholder">
+      <mat-icon color="{{qrShareService.iconcolor}}" matSuffix>save_alt</mat-icon>
+      <mat-hint>paste your QR-code here</mat-hint>
+    </mat-form-field>
+  </p>
+</div>
+<div class="d-flex justify-content-center">
+  <div class="justify-content-center p-3 my-2 mx-2 w-75">
+    <mat-hint *ngIf="qrShareService.latestScans.length > 0" [ngStyle]="{'color': '#880808'}">*this data won't be saved
+      <br> *you can click the
+      content
+    </mat-hint>
+    <mat-selection-list [multiple]="false">
+      <mat-list-option *ngFor="let item of qrShareService.latestScans" [value]="item">
+        <mat-list-item (click)="qrShareService.openNewTabWithQRValue(item)" class="text-truncate">
+          {{item}}
+        </mat-list-item>
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<app-timer-imput-form></app-timer-imput-form>
+<div class="d-flex justify-content-center p-3 vw-25 flex-column vw-25">
+    <div class="d-flex justify-content-center vw-25">
+        <mat-hint *ngIf="timerservice.extraPause" [ngStyle]="{'color': '#880808'}">
+            {{ timerservice.pausehinweis }}
+        </mat-hint>
+    </div>
+    <div class="d-flex justify-content-center p-3 my-2 mx-2 vw-25">
+        <button (click)="timerservice.calculateTotal()"
+                color="primary"
+                mat-raised-button>
+            calculate
+        </button>
+    </div>
+    <app-timer-progress-view [feierabendDateString]="timerservice.feierabendDateString"
+                             [progressSpinnerColor]="timerservice.progressSpinnerColor"
+                             [progressSpinnerMode]="timerservice.progressSpinnerMode"
+                             [progressSpinnerValue]="timerservice.progressSpinnerValue"
+                             [remaining]="timerservice.remaining"></app-timer-progress-view>
+</div>
