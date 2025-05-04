@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDatepickerModule} from "@angular/material/datepicker";
@@ -27,7 +27,7 @@ import {NgIf} from "@angular/common";
         NgIf,
     ]
 })
-export class TimerProgressViewComponent {
+export class TimerProgressViewComponent implements OnInit {
 
     @Input() progressSpinnerValue!: number;
     @Input() feierabendDateString!: string;
@@ -35,4 +35,26 @@ export class TimerProgressViewComponent {
     @Input() progressSpinnerMode!: "determinate" | "indeterminate";
     @Input() remaining!: string;
     protected readonly Number = Number;
+    private windowWidth: number = 0;
+
+    ngOnInit(): void {
+        this.updateWindowWidth();
+        window.addEventListener('resize', () => this.updateWindowWidth());
+    }
+
+    private updateWindowWidth(): void {
+        this.windowWidth = window.innerWidth;
+    }
+
+    getSpinnerDiameter(): number {
+        if (this.windowWidth < 480) {
+            return 100; // Small screens
+        } else if (this.windowWidth < 768) {
+            return 120; // Medium screens
+        } else if (this.windowWidth < 992) {
+            return 150; // Large screens
+        } else {
+            return 180; // Extra large screens
+        }
+    }
 }

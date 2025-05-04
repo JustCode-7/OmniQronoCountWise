@@ -1,17 +1,30 @@
-<mat-toolbar color="primary" class="justify-content-between">
-    <code>{{ this.title }}</code>
-    <div [ngStyle]="{'font-size': 80+'%','color': '#3d6065'}" class="p-3 d-flex justify-content-xxl-end">
-        <mat-icon>linear_scale</mat-icon>
-        <span class="ms-1">appversion: {{ appVersion }}</span>
+<mat-toolbar color="primary" class="justify-content-between flex-wrap">
+    <code class="text-truncate">{{ this.title }}</code>
+    <div [ngStyle]="{'font-size': 80+'%','color': '#3d6065'}" class="d-flex align-items-center">
+        <mat-icon class="d-none d-sm-inline">linear_scale</mat-icon>
+        <span class="ms-1">v{{ appVersion }}</span>
     </div>
 </mat-toolbar>
-<div class="container mt-3">
-    <mat-tab-group (selectedIndexChange)="navigateToTab($event)">
-        @for (tab of tabs; track tab.text; let i = $index) {
-            <mat-tab label="{{ tab.text }}"></mat-tab>
-        }
-    </mat-tab-group>
-    <div class="mt-3">
-        <router-outlet></router-outlet>
+<div class="container-fluid container-lg mt-3">
+    <div class="row">
+        <div class="col-12">
+            <mat-tab-group (selectedIndexChange)="navigateToTab($event)" [disableRipple]="true" class="w-100">
+                @for (tab of tabs; track tab.text; let i = $index) {
+                    <mat-tab label="{{ tab.text }}"></mat-tab>
+                }
+            </mat-tab-group>
+            <div class="mt-3">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
     </div>
 </div>
+
+<style>
+    @media (max-width: 576px) {
+        .mat-mdc-tab-label {
+            padding: 0 12px !important;
+            min-width: auto !important;
+        }
+    }
+</style>

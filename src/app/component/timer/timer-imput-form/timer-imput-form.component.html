@@ -1,38 +1,47 @@
-<div class="d-flex justify-content-center p-3 ">
-  <form (ngSubmit)="timerserivce.calculateTotal()"
-        [formGroup]="timerserivce.timeForm!"
-        class="form-horizontal">
-    <div *ngFor="let form of timerserivce.forms; let i=index">
-      <mat-form-field appearance="fill">
-        <mat-label>{{form}}</mat-label>
-        <input *ngIf="form !== 'pause'"
-               formControlName="{{form}}"
-               matInput
-               type="time">
-        <div *ngIf="form === 'pause'" class="d-flex flex-column justify-content-end">
-          <div class="d-flex flex-row justify-content-end">
-            <input
-              formControlName="{{form}}"
-              matInput
-              type="time">
-            <div class="d-flex flex-row">
-              <button (click)="timerserivce.startPausetimer()"
-                      color="primary"
-                      mat-mini-fab>
-                <mat-icon>{{timerserivce.playIconSymbol}}</mat-icon>
-              </button>
-              <button (click)="timerserivce.openPauseList()" mat-icon-button>
-                <mat-icon>list</mat-icon>
-              </button>
+<div class="container-fluid p-3">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <form (ngSubmit)="timerserivce.calculateTotal()"
+            [formGroup]="timerserivce.timeForm!"
+            class="form-horizontal w-100">
+        <div *ngFor="let form of timerserivce.forms; let i=index" class="mb-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{form}}</mat-label>
+            <input *ngIf="form !== 'pause'"
+                  formControlName="{{form}}"
+                  matInput
+                  type="time"
+                  class="w-100">
+            <div *ngIf="form === 'pause'" class="d-flex flex-column justify-content-end w-100">
+              <div class="d-flex flex-row justify-content-between align-items-center">
+                <input
+                  formControlName="{{form}}"
+                  matInput
+                  type="time"
+                  class="flex-grow-1">
+                <div class="d-flex flex-row ms-2">
+                  <button (click)="timerserivce.startPausetimer()"
+                          color="primary"
+                          mat-mini-fab
+                          class="me-1">
+                    <mat-icon>{{timerserivce.playIconSymbol}}</mat-icon>
+                  </button>
+                  <button (click)="timerserivce.openPauseList()" mat-icon-button>
+                    <mat-icon>list</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div *ngIf="timerserivce.pauseActive" matBadge="" class="mt-2">
+                <div class="d-flex align-items-center">
+                  <mat-spinner [diameter]="12" color="warn" class="me-2"></mat-spinner>
+                  <mat-hint [ngStyle]="{'color': '#880808'}"
+                  >{{timerserivce.pauseActiveForSeconds}}</mat-hint>
+                </div>
+              </div>
             </div>
-          </div>
-          <div *ngIf="timerserivce.pauseActive" matBadge="">
-            <mat-spinner [diameter]="12" color="warn"></mat-spinner>
-            <mat-hint [ngStyle]="{'color': '#880808'}"
-            >{{timerserivce.pauseActiveForSeconds}}</mat-hint>
-          </div>
+          </mat-form-field>
         </div>
-      </mat-form-field>
+      </form>
     </div>
-  </form>
+  </div>
 </div>
