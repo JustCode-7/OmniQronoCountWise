@@ -1,0 +1,71 @@
+{
+  "configVersion": 1,
+  "timestamp": 1714921200000,
+  "index": "/OmniQronoCountWise/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/OmniQronoCountWise/favicon.ico",
+        "/OmniQronoCountWise/index.html",
+        "/OmniQronoCountWise/main-PHKJCMQP.js",
+        "/OmniQronoCountWise/polyfills-FFHMD2TL.js",
+        "/OmniQronoCountWise/scripts-EEEIPNC3.js",
+        "/OmniQronoCountWise/styles-7M4BUJ7L.css",
+        "/OmniQronoCountWise/chunk-EQDQRRRY.js",
+        "/OmniQronoCountWise/chunk-FK7UXCNS.js"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/OmniQronoCountWise/assets/icons/README.txt",
+        "/OmniQronoCountWise/assets/icons/OmniQronoCountWise.jpg"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/OmniQronoCountWise/chunk-EQDQRRRY.js": "1280",
+    "/OmniQronoCountWise/chunk-FK7UXCNS.js": "44078",
+    "/OmniQronoCountWise/favicon.ico": "15086",
+    "/OmniQronoCountWise/index.html": "54014",
+    "/OmniQronoCountWise/main-PHKJCMQP.js": "933937",
+    "/OmniQronoCountWise/polyfills-FFHMD2TL.js": "34521",
+    "/OmniQronoCountWise/scripts-EEEIPNC3.js": "80341",
+    "/OmniQronoCountWise/styles-7M4BUJ7L.css": "316473",
+    "/OmniQronoCountWise/assets/icons/README.txt": "861",
+    "/OmniQronoCountWise/assets/icons/OmniQronoCountWise.jpg": "108991"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
