@@ -2,8 +2,8 @@
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
 
-// Import pre-built Angular Material themes
-@import '@angular/material/prebuilt-themes/purple-green.css';
+// Note: We're not importing a prebuilt theme here anymore
+// Themes will be loaded dynamically from assets/themes/
 
 // Import Bootstrap
 @import 'bootstrap/scss/bootstrap';
@@ -16,20 +16,14 @@ html, body {
 }
 
 body {
-  background-color: #303030;
-  color: white;
   margin: 0;
+  // Note: Background color and text color are now controlled by the theme
 }
 
-// Bootstrap dark theme adjustments
+// Note: These dark theme adjustments will only apply when a dark theme is active
+// For light themes, the theme CSS will override these styles
 .card {
-  background-color: #424242;
-  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 2px 1px -1px rgba(0,0,0,.2),
               0 1px 1px 0 rgba(0,0,0,.14),
               0 1px 3px 0 rgba(0,0,0,.12);
-}
-
-.bg-dark {
-  background-color: #212121 !important;
 }

@@ -53,9 +53,29 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.webmanifest",
-              "src/404.html"
+              "src/404.html",
+              {
+                "glob": "deeppurple-amber.css",
+                "input": "node_modules/@angular/material/prebuilt-themes",
+                "output": "assets/themes"
+              },
+              {
+                "glob": "indigo-pink.css",
+                "input": "node_modules/@angular/material/prebuilt-themes",
+                "output": "assets/themes"
+              },
+              {
+                "glob": "pink-bluegrey.css",
+                "input": "node_modules/@angular/material/prebuilt-themes",
+                "output": "assets/themes"
+              },
+              {
+                "glob": "purple-green.css",
+                "input": "node_modules/@angular/material/prebuilt-themes",
+                "output": "assets/themes"
+              }
             ],
-            "serviceWorker": false,
+            "serviceWorker": "ngsw-config.json",
             "styles": [
               "src/styles.scss"
             ],

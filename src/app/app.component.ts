@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Renderer2} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Router, RouterOutlet} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -7,6 +7,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {environment} from "../environments/environment";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatMenuModule} from "@angular/material/menu";
 
 export interface TabMenueItems {
     text: string;
@@ -24,6 +25,7 @@ export interface TabMenueItems {
         MatIconModule,
         MatTabsModule,
         MatSnackBarModule,
+        MatMenuModule,
     ],
     templateUrl: 'app.component.html',
     styles: []
@@ -38,16 +40,43 @@ export class AppComponent implements OnInit {
         {text: "TT-Counter", route: "tt-counter"},
     ];
 
+    // Available themes
+    availableThemes = [
+        {name: 'Purple-Green', cssFile: 'purple-green.css'},
+        {name: 'Indigo-Pink', cssFile: 'indigo-pink.css'},
+        {name: 'Pink-Blue Grey', cssFile: 'pink-bluegrey.css'},
+        {name: 'Deep Purple-Amber', cssFile: 'deeppurple-amber.css'},
+        {name: 'Green-Dark', cssFile: 'green-dark.css'}
+    ];
+
+    // Current theme
+    currentTheme = this.availableThemes[0];
+
     // Property to store the deferred installation prompt
     private deferredPrompt: any;
     showInstallButton = false;
 
-    constructor(private router: Router, private snackBar: MatSnackBar) {
+    constructor(private router: Router, private snackBar: MatSnackBar, private renderer: Renderer2) {
         // Navigate to the first tab by default
         this.navigateToTab(0);
     }
 
     ngOnInit(): void {
+        // Load saved theme preference
+        const savedTheme = localStorage.getItem('selectedTheme');
+        if (savedTheme) {
+            const theme = JSON.parse(savedTheme);
+            // Find the matching theme in availableThemes
+            const matchedTheme = this.availableThemes.find(t => t.name === theme.name);
+            if (matchedTheme) {
+                // Apply the saved theme
+                this.changeTheme(matchedTheme);
+            }
+        } else {
+            // Apply default theme if no saved preference
+            this.changeTheme(this.availableThemes[0]);
+        }
+
         // Listen for the beforeinstallprompt event
         window.addEventListener('beforeinstallprompt', (e) => {
             // Prevent the default browser install prompt
@@ -87,7 +116,7 @@ export class AppComponent implements OnInit {
         this.deferredPrompt.prompt();
 
         // Wait for the user to respond to the prompt
-        this.deferredPrompt.userChoice.then((choiceResult: {outcome: string}) => {
+        this.deferredPrompt.userChoice.then((choiceResult: { outcome: string }) => {
             if (choiceResult.outcome === 'accepted') {
                 console.log('User accepted the install prompt');
             } else {
@@ -103,8 +132,8 @@ export class AppComponent implements OnInit {
     // Method to show a snackbar notification prompting installation
     showInstallPrompt(): void {
         const snackBarRef = this.snackBar.open(
-            'Diese App kann installiert werden', 
-            'Installieren', 
+            'Diese App kann installiert werden',
+            'Installieren',
             {
                 duration: 10000,
                 horizontalPosition: 'center',
@@ -115,5 +144,33 @@ export class AppComponent implements OnInit {
         snackBarRef.onAction().subscribe(() => {
             this.installApp();
         });
+    }
+
+    // Method to change the theme
+    changeTheme(theme: any): void {
+        // Remove current theme
+        const head = document.getElementsByTagName('head')[0];
+        const links = document.getElementsByTagName('link');
+
+        // Find and remove the current theme link
+        for (let i = 0; i < links.length; i++) {
+            const link = links[i];
+            if (link.href.includes('assets/themes')) {
+                this.renderer.removeChild(head, link);
+                break;
+            }
+        }
+
+        // Add new theme link
+        const newLink = this.renderer.createElement('link');
+        this.renderer.setAttribute(newLink, 'rel', 'stylesheet');
+        this.renderer.setAttribute(newLink, 'href', `./assets/themes/${theme.cssFile}`);
+        this.renderer.appendChild(head, newLink);
+
+        // Update current theme
+        this.currentTheme = theme;
+
+        // Save theme preference to localStorage
+        localStorage.setItem('selectedTheme', JSON.stringify(theme));
     }
 }
