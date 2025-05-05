@@ -28,6 +28,7 @@ export class BehaviorCounterComponent implements OnInit, OnDestroy {
 
     incrementCounter(): void {
         this.counter = (this.counter + 1) % 100; // Keep it two digits
+        this.saveCounterValue();
     }
 
     resetCounter(): void {
