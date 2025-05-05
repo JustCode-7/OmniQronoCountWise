@@ -1,8 +1,14 @@
 <mat-toolbar color="primary" class="justify-content-between flex-wrap">
     <code class="text-truncate">{{ this.title }}</code>
-    <div [ngStyle]="{'font-size': 80+'%','color': '#3d6065'}" class="d-flex align-items-center">
-        <mat-icon class="d-none d-sm-inline">linear_scale</mat-icon>
-        <span class="ms-1">v{{ appVersion }}</span>
+    <div class="d-flex align-items-center">
+        <button *ngIf="showInstallButton" mat-raised-button color="accent" (click)="installApp()" class="me-2">
+            <mat-icon>get_app</mat-icon>
+            <span class="ms-1">Installieren</span>
+        </button>
+        <div [ngStyle]="{'font-size': 80+'%','color': '#3d6065'}" class="d-flex align-items-center">
+            <mat-icon class="d-none d-sm-inline">linear_scale</mat-icon>
+            <span class="ms-1">v{{ appVersion }}</span>
+        </div>
     </div>
 </mat-toolbar>
 <div class="container-fluid container-lg mt-3">
