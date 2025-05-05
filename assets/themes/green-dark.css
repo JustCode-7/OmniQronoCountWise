@@ -1,0 +1,391 @@
+/* Custom green-dark theme */
+/* Enhanced CSS implementation of a green dark theme for Angular Material 19 */
+
+/* Primary color */
+.mat-mdc-button.mat-primary, 
+.mat-mdc-raised-button.mat-primary, 
+.mat-mdc-fab.mat-primary, 
+.mat-mdc-mini-fab.mat-primary {
+  background-color: #2e7d32 !important;
+  color: #ffffff !important;
+}
+
+/* Fix for button ripple effect */
+.mat-mdc-button .mat-mdc-button-ripple,
+.mat-mdc-raised-button .mat-mdc-button-ripple,
+.mat-mdc-fab .mat-mdc-button-ripple,
+.mat-mdc-mini-fab .mat-mdc-button-ripple {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Fix for MDC button surfaces */
+.mdc-button {
+  background-color: transparent;
+}
+
+.mdc-button--raised {
+  background-color: #2e7d32 !important;
+}
+
+.mdc-button--unelevated {
+  background-color: #2e7d32 !important;
+}
+
+.mdc-fab {
+  background-color: #2e7d32 !important;
+}
+
+/* Fix for button text color */
+.mdc-button__label {
+  color: inherit !important;
+}
+
+/* Fix for button ripple */
+.mdc-button__ripple {
+  background-color: transparent;
+}
+
+/* Accent color */
+.mat-mdc-button.mat-accent, 
+.mat-mdc-raised-button.mat-accent, 
+.mat-mdc-fab.mat-accent, 
+.mat-mdc-mini-fab.mat-accent {
+  background-color: #69f0ae !important;
+  color: #000000 !important;
+}
+
+/* Warn color */
+.mat-mdc-button.mat-warn, 
+.mat-mdc-raised-button.mat-warn, 
+.mat-mdc-fab.mat-warn, 
+.mat-mdc-mini-fab.mat-warn {
+  background-color: #f44336 !important;
+  color: #ffffff !important;
+}
+
+/* Toolbar */
+.mat-toolbar.mat-primary {
+  background-color: #2e7d32 !important;
+  color: #ffffff !important;
+}
+
+.mat-toolbar.mat-accent {
+  background-color: #69f0ae !important;
+  color: #000000 !important;
+}
+
+/* Fix for MDC toolbar */
+.mat-mdc-toolbar {
+  background-color: #2e7d32 !important;
+  color: #ffffff !important;
+}
+
+.mat-mdc-toolbar.mat-primary {
+  background-color: #2e7d32 !important;
+  color: #ffffff !important;
+}
+
+.mat-mdc-toolbar.mat-accent {
+  background-color: #69f0ae !important;
+  color: #000000 !important;
+}
+
+.mat-mdc-toolbar-row {
+  background-color: inherit !important;
+}
+
+/* Background */
+.mat-app-background {
+  background-color: #303030 !important;
+  color: #ffffff !important;
+}
+
+/* Card */
+.mat-mdc-card {
+  background-color: #424242 !important;
+  color: #ffffff !important;
+  border-radius: 8px !important;
+}
+
+.card {
+  background-color: #424242 !important;
+  color: #ffffff !important;
+  border-color: #555555 !important;
+}
+
+/* Tab group */
+.mat-mdc-tab-group {
+  background-color: transparent !important;
+}
+
+.mat-mdc-tab-header {
+  background-color: transparent !important;
+}
+
+.mat-mdc-tab-label-container {
+  background-color: transparent !important;
+}
+
+.mat-mdc-tab-list {
+  background-color: transparent !important;
+}
+
+.mat-mdc-tab {
+  color: #ffffff !important;
+}
+
+.mat-mdc-tab.mdc-tab--active {
+  color: #69f0ae !important;
+}
+
+.mat-mdc-tab-header-pagination-chevron {
+  border-color: #ffffff !important;
+}
+
+.mat-mdc-tab-header-pagination-disabled .mat-mdc-tab-header-pagination-chevron {
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.mat-mdc-tab-group.mat-primary .mat-mdc-tab-header-pagination-chevron {
+  border-color: #ffffff !important;
+}
+
+.mat-mdc-tab-group.mat-primary .mat-ink-bar,
+.mat-mdc-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #2e7d32 !important;
+}
+
+/* Fix for MDC tabs */
+.mdc-tab {
+  background-color: transparent !important;
+}
+
+.mdc-tab-indicator {
+  background-color: transparent !important;
+}
+
+.mdc-tab-indicator__content {
+  background-color: #2e7d32 !important;
+}
+
+.mdc-tab-indicator__content--underline {
+  border-color: #2e7d32 !important;
+}
+
+.mdc-tab__text-label {
+  color: #ffffff !important;
+}
+
+.mdc-tab--active .mdc-tab__text-label {
+  color: #69f0ae !important;
+}
+
+.mdc-tab__ripple {
+  background-color: transparent;
+}
+
+/* Fix for tab content area */
+.mat-mdc-tab-body-content {
+  background-color: transparent !important;
+  color: #ffffff !important;
+}
+
+/* Icons */
+.mat-icon {
+  color: inherit !important;
+}
+
+button .mat-icon {
+  color: inherit !important;
+}
+
+.mat-mdc-fab .mat-icon,
+.mat-mdc-mini-fab .mat-icon {
+  color: inherit !important;
+}
+
+/* Inputs */
+.mat-mdc-form-field {
+  color: #ffffff !important;
+}
+
+.mat-mdc-text-field-wrapper {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.mat-mdc-form-field-label {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-form-field-label {
+  color: #69f0ae !important;
+}
+
+.mat-mdc-form-field-ripple {
+  background-color: #69f0ae !important;
+}
+
+/* Dark theme specific styles */
+.mat-mdc-table {
+  background-color: #424242 !important;
+  color: #ffffff !important;
+}
+
+.mat-mdc-row, .mat-mdc-header-row, .mat-mdc-footer-row {
+  background-color: #424242 !important;
+}
+
+.mat-mdc-paginator {
+  background-color: #424242 !important;
+  color: #ffffff !important;
+}
+
+.mat-mdc-dialog-container {
+  background-color: #424242 !important;
+  color: #ffffff !important;
+}
+
+.mat-mdc-select-panel {
+  background-color: #424242 !important;
+  color: #ffffff !important;
+}
+
+.mat-mdc-option {
+  color: #ffffff !important;
+}
+
+.mat-mdc-option:hover:not(.mat-mdc-option-disabled) {
+  background-color: rgba(46, 125, 50, 0.1) !important;
+}
+
+.mat-mdc-option.mat-mdc-selected:not(.mat-mdc-option-multiple):not(.mat-mdc-option-disabled) {
+  background-color: rgba(46, 125, 50, 0.2) !important;
+}
+
+/* Menu */
+.mat-mdc-menu-panel {
+  background-color: #424242 !important;
+  color: #ffffff !important;
+}
+
+.mat-mdc-menu-item {
+  color: #ffffff !important;
+}
+
+.mat-mdc-menu-item:hover:not([disabled]) {
+  background-color: rgba(46, 125, 50, 0.1) !important;
+}
+
+/* Fix for MDC menu */
+.mdc-menu-surface {
+  background-color: #424242 !important;
+  color: #ffffff !important;
+  border-radius: 4px !important;
+}
+
+.mdc-list {
+  background-color: #424242 !important;
+  color: #ffffff !important;
+}
+
+.mdc-list-item {
+  color: #ffffff !important;
+}
+
+.mdc-list-item:hover {
+  background-color: rgba(46, 125, 50, 0.1) !important;
+}
+
+.mdc-list-item--selected, 
+.mdc-list-item--activated {
+  background-color: rgba(46, 125, 50, 0.2) !important;
+  color: #69f0ae !important;
+}
+
+.mdc-list-item__primary-text {
+  color: inherit !important;
+}
+
+/* Fix for menu item icons */
+.mat-mdc-menu-item .mat-icon {
+  color: #ffffff !important;
+}
+
+/* Fix for behavior-counter component */
+.counter-container .display-container {
+  background-color: #000000 !important;
+  border: 5px solid #2e7d32 !important;
+  box-shadow: 0 0 15px rgba(46, 125, 50, 0.5) !important;
+}
+
+.counter-container .clock-display {
+  color: #69f0ae !important;
+  text-shadow: 0 0 10px rgba(105, 240, 174, 0.7) !important;
+}
+
+.counter-container .plus-button {
+  background-color: #2e7d32 !important;
+  color: #ffffff !important;
+}
+
+.counter-container .plus-button .mat-icon {
+  color: #ffffff !important;
+}
+
+.counter-container .reset-button {
+  background-color: #f44336 !important;
+  color: #ffffff !important;
+}
+
+.counter-container .reset-button .mat-icon {
+  color: #ffffff !important;
+}
+
+/* Fix for button container */
+.button-container {
+  background-color: transparent !important;
+}
+
+.reset-button-container {
+  background-color: transparent !important;
+}
+
+/* Fix for Bootstrap components */
+.btn-primary {
+  background-color: #2e7d32 !important;
+  border-color: #2e7d32 !important;
+}
+
+.btn-secondary {
+  background-color: #424242 !important;
+  border-color: #424242 !important;
+}
+
+.btn-success {
+  background-color: #4caf50 !important;
+  border-color: #4caf50 !important;
+}
+
+.btn-danger {
+  background-color: #f44336 !important;
+  border-color: #f44336 !important;
+}
+
+.btn-warning {
+  background-color: #ff9800 !important;
+  border-color: #ff9800 !important;
+}
+
+.btn-info {
+  background-color: #00bcd4 !important;
+  border-color: #00bcd4 !important;
+}
+
+/* Fix for container backgrounds */
+.container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+  background-color: transparent !important;
+}
+
+.row, .col, .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
+  background-color: transparent !important;
+}

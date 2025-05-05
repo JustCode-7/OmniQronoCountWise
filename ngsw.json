@@ -1,0 +1,95 @@
+{
+  "configVersion": 1,
+  "timestamp": 1746469422698,
+  "index": "/OmniQronoCountWise/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/OmniQronoCountWise/chunk-EQDQRRRY.js",
+        "/OmniQronoCountWise/chunk-FK7UXCNS.js",
+        "/OmniQronoCountWise/favicon.ico",
+        "/OmniQronoCountWise/index.html",
+        "/OmniQronoCountWise/main-DLCLSB5H.js",
+        "/OmniQronoCountWise/manifest.webmanifest",
+        "/OmniQronoCountWise/polyfills-FFHMD2TL.js",
+        "/OmniQronoCountWise/scripts-EEEIPNC3.js",
+        "/OmniQronoCountWise/styles-XY2IMUFM.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/OmniQronoCountWise/assets/icons/README.txt",
+        "/OmniQronoCountWise/assets/themes/deeppurple-amber.css",
+        "/OmniQronoCountWise/assets/themes/green-dark.css",
+        "/OmniQronoCountWise/assets/themes/indigo-pink.css",
+        "/OmniQronoCountWise/assets/themes/pink-bluegrey.css",
+        "/OmniQronoCountWise/assets/themes/purple-green.css"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "api-performance",
+      "patterns": [
+        "\\/api\\/.*"
+      ],
+      "strategy": "performance",
+      "maxSize": 100,
+      "maxAge": 86400000,
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "version": 1
+    }
+  ],
+  "hashTable": {
+    "/OmniQronoCountWise/assets/icons/README.txt": "8a6e778062cf325052158deb96292f0d997dd152",
+    "/OmniQronoCountWise/assets/themes/deeppurple-amber.css": "19fd93126a27c9801761e26a6597280f3bada595",
+    "/OmniQronoCountWise/assets/themes/green-dark.css": "20301ff09ac3c762889f7567905842fdaf93ccc7",
+    "/OmniQronoCountWise/assets/themes/indigo-pink.css": "b99f07e48252198c36d24d9015e09caf09a345bc",
+    "/OmniQronoCountWise/assets/themes/pink-bluegrey.css": "2c7002136480026227c1e12d51df68a67e315b40",
+    "/OmniQronoCountWise/assets/themes/purple-green.css": "4218510a1be663ac374ec5056e02f650287c9763",
+    "/OmniQronoCountWise/chunk-EQDQRRRY.js": "c40057a332d0341d595cc1d005fc2ab4f2573957",
+    "/OmniQronoCountWise/chunk-FK7UXCNS.js": "96c3b5c0c42fe70ca51a3a6b99a80444a079d463",
+    "/OmniQronoCountWise/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
+    "/OmniQronoCountWise/index.html": "61e01199c955976ecbc1eb7937ecbc422e141fb1",
+    "/OmniQronoCountWise/main-DLCLSB5H.js": "8fb2e8ee1e9d708b43084a78cb759b61ee43f58c",
+    "/OmniQronoCountWise/manifest.webmanifest": "d16575d5470860c0e2784a4e683f834bec236bd8",
+    "/OmniQronoCountWise/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
+    "/OmniQronoCountWise/scripts-EEEIPNC3.js": "2318ded8c885787a1645385a82c1ca883c359034",
+    "/OmniQronoCountWise/styles-XY2IMUFM.css": "f882e438d17f38a5e6211c1735bc259afcdf6bbb"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
