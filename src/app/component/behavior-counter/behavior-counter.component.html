@@ -1,17 +1,44 @@
 <div class="counter-container">
-    <div class="display-container">
-        <div class="clock-display">
-            {{ counter < 10 ? '0' + counter : counter }}
+    <div class="displays-wrapper">
+        <div class="display-container">
+            <div class="clock-display">
+                {{ counter < 10 ? '0' + counter : counter }}
+            </div>
+        </div>
+        <div class="time-container" *ngIf="lastIncrementTime">
+            <div class="time-display">
+                {{ lastIncrementTime }}
+            </div>
         </div>
     </div>
     <div class="reset-button-container">
         <button mat-raised-button color="warn" class="reset-button" (click)="resetCounter()">
-            <mat-icon>refresh</mat-icon> Reset
+            <mat-icon>refresh</mat-icon>
+            Reset
         </button>
     </div>
     <div class="button-container">
-        <button mat-fab color="primary" class="plus-button" (click)="incrementCounter()">
-            <mat-icon>add</mat-icon>
-        </button>
+        <div class="buttons-row">
+            <button mat-fab color="primary" class="plus-button" (click)="incrementCounter()">
+                <mat-icon>add</mat-icon>
+            </button>
+
+            <!-- Toggle button for reset history -->
+            <button mat-icon-button color="accent" class="history-toggle-button" (click)="toggleResetHistory()"
+                    *ngIf="resetHistory.length > 0">
+                <mat-icon>history</mat-icon>
+            </button>
+        </div>
+
+        <!-- Reset history list -->
+        <div *ngIf="showResetHistory && resetHistory.length > 0">
+            <mat-list class="d-flex flex-column">
+                <mat-list-item *ngFor="let reset of resetHistory">
+                    <mat-icon>history</mat-icon>
+                    <b>{{ reset.value < 10 ? '0' + reset.value : reset.value }}</b>
+                    last: {{ formatTimestamp(reset.timestamp) }}
+                </mat-list-item>
+            </mat-list>
+        </div>
     </div>
 </div>
