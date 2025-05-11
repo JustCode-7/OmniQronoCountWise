@@ -5,6 +5,7 @@ import {ThemePalette} from "@angular/material/core";
 import {ProgressSpinnerMode} from "@angular/material/progress-spinner";
 import {MatDialog} from "@angular/material/dialog";
 import {PauseListComponent} from "../component/dialog/pause-list/pause-list.component";
+import {StorageService} from "./storage.service";
 
 @Injectable({
     providedIn: 'root'
@@ -41,7 +42,11 @@ export class TimerService {
     pauseActive: boolean = false;
     pauseList: string[] = [];
 
-    constructor(private fb: FormBuilder, private dialog: MatDialog) {
+    constructor(
+        private fb: FormBuilder, 
+        private dialog: MatDialog,
+        private storageService: StorageService
+    ) {
     }
 
     public calculateTotal() {
@@ -62,25 +67,29 @@ export class TimerService {
     }
 
     setInitialTimeValues() {
-        if (localStorage.getItem('startTime') != null) {
-            this.timeForm?.get("starttime")?.setValue(JSON.parse(localStorage.getItem('startTime')!))
+        const timerData = this.storageService.getTimerData();
+
+        if (timerData.startTime) {
+            this.timeForm?.get("starttime")?.setValue(timerData.startTime);
         } else {
-            this.timeForm?.get("starttime")?.setValue(this.getFormattedTimeString(9, 30))
+            this.timeForm?.get("starttime")?.setValue(this.getFormattedTimeString(9, 30));
         }
-        if (localStorage.getItem('workTime') != null) {
-            this.timeForm?.get("worktime")?.setValue(JSON.parse(localStorage.getItem('workTime')!))
+
+        if (timerData.workTime) {
+            this.timeForm?.get("worktime")?.setValue(timerData.workTime);
         } else {
-            this.timeForm?.get("worktime")?.setValue(this.getFormattedTimeString(7, 48))
+            this.timeForm?.get("worktime")?.setValue(this.getFormattedTimeString(7, 48));
         }
-        if (localStorage.getItem('Pause') != null) {
-            this.timeForm?.get("pause")?.setValue(JSON.parse(localStorage.getItem('Pause')!))
+
+        if (timerData.pause) {
+            this.timeForm?.get("pause")?.setValue(timerData.pause);
         } else {
-            this.timeForm?.get("pause")?.setValue(this.getFormattedTimeString(0, 30))
+            this.timeForm?.get("pause")?.setValue(this.getFormattedTimeString(0, 30));
         }
-        if (localStorage.getItem(this.getCurrentPauseListKey()) != null) {
-            this.pauseList = JSON.parse(localStorage.getItem(this.getCurrentPauseListKey())!)
+
+        if (timerData.pauseList && timerData.pauseList.length > 0) {
+            this.pauseList = timerData.pauseList;
         } else {
-            this.deleteOldPauseList();
             this.pauseList = [];
         }
     }
@@ -165,11 +174,9 @@ export class TimerService {
     }
 
     private deleteOldPauseList() {
-        for (let i = 0; i < localStorage.length; i++) {
-            if (localStorage.key(i)!.includes('pause-list') && !localStorage.key(i)!.match(this.getCurrentPauseListKey())) {
-                localStorage.removeItem(localStorage.key(i)!)
-            }
-        }
+        // With the new storage service, we don't need to manually delete old pause lists
+        // as they are stored in a structured way. We can just clear the current pause list.
+        this.storageService.clearTimerPauseList();
     }
 
     private getCurrentPauseListKey() {
@@ -184,11 +191,11 @@ export class TimerService {
     }
 
     private storeTimesInLocalStorage() {
-        localStorage.setItem('startTime', JSON.stringify(this.timeForm?.get("starttime")?.value));
-        localStorage.setItem('workTime', JSON.stringify(this.timeForm?.get("worktime")?.value));
+        this.storageService.setTimerStartTime(this.timeForm?.get("starttime")?.value);
+        this.storageService.setTimerWorkTime(this.timeForm?.get("worktime")?.value);
         //TODO: eventuell mit TimeStamp, um es für den nächsten Tag wieder auf 30 zu setzen
-        localStorage.setItem('Pause', JSON.stringify(this.timeForm?.get("pause")?.value));
-        localStorage.setItem(this.getCurrentPauseListKey(), JSON.stringify(this.pauseList))
+        this.storageService.setTimerPause(this.timeForm?.get("pause")?.value);
+        this.storageService.setTimerPauseList(this.pauseList);
     }
 
     private getSumOfHours() {

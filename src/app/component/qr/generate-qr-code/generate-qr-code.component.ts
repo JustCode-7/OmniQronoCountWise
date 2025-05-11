@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Output, Re
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser"
 import {QRCodeConfigType, QRCodeErrorCorrectionLevel, QRCodeVersion,} from "./types"
 import {QrcodeShareService} from "../../../service/qrcode-share.service";
+import {StorageService} from "../../../service/storage.service";
 import {BehaviorSubject} from "rxjs";
 import QRCode, {QRCodeToStringOptions} from 'qrcode'
 import {MatListModule} from "@angular/material/list";
@@ -58,9 +59,14 @@ export class GenerateQrCodeComponent {
     public errorMsg = new BehaviorSubject<string>("");
     private revalidationVersion: QRCodeVersion | undefined;
 
-    constructor(private renderer: Renderer2, private sanitizer: DomSanitizer, public qrcodeService: QrcodeShareService) {
+    constructor(
+        private renderer: Renderer2, 
+        private sanitizer: DomSanitizer, 
+        public qrcodeService: QrcodeShareService,
+        private storageService: StorageService
+    ) {
         this.value = "https://www.google.de/";
-        this.latestScans = this.getListFromLocalStorage() ?? [];
+        this.latestScans = this.storageService.getQrCodeLatestScans() ?? [];
         this.initialGenerateQR();
     }
 
@@ -211,16 +217,16 @@ export class GenerateQrCodeComponent {
     }
 
     saveInLocalSorage(items: string[]) {
-        localStorage.setItem('list', JSON.stringify(items));
+        this.storageService.setQrCodeLatestScans(items);
     }
 
     getListFromLocalStorage() {
-        return JSON.parse(localStorage.getItem('list')!);
+        return this.storageService.getQrCodeLatestScans();
     }
 
     clearList() {
         this.latestScans = [];
-        this.saveInLocalSorage(this.latestScans);
+        this.storageService.clearQrCodeScans();
         window.location.reload();
     }
 

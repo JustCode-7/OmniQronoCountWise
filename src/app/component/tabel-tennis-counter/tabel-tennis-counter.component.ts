@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {StorageService} from '../../service/storage.service';
 
 @Component({
     selector: 'app-tabel-tennis-counter',
@@ -18,6 +19,8 @@ export class TabelTennisCounterComponent implements OnInit, OnDestroy {
     player1Score: number = 0;
     player2Score: number = 0;
     private readonly storageKey: string = 'table-tennis-counter-';
+
+    constructor(private storageService: StorageService) {}
 
     ngOnInit(): void {
         this.loadScores();
@@ -50,24 +53,19 @@ export class TabelTennisCounterComponent implements OnInit, OnDestroy {
 
     private saveScores(): void {
         const dateKey = this.getCurrentDateString();
-        localStorage.setItem(this.storageKey + dateKey, JSON.stringify({
+        this.storageService.setTableTennisScores(dateKey, {
             player1: this.player1Score,
             player2: this.player2Score
-        }));
+        });
     }
 
     private loadScores(): void {
         const dateKey = this.getCurrentDateString();
-        const savedValue = localStorage.getItem(this.storageKey + dateKey);
+        const scores = this.storageService.getTableTennisScores(dateKey);
 
-        if (savedValue !== null) {
-            try {
-                const scores = JSON.parse(savedValue);
-                this.player1Score = scores.player1;
-                this.player2Score = scores.player2;
-            } catch (e) {
-                console.error('Error loading scores from localStorage', e);
-            }
+        if (scores) {
+            this.player1Score = scores.player1;
+            this.player2Score = scores.player2;
         }
     }
 }

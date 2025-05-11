@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {StorageService} from '../../service/storage.service';
 
 @Component({
     selector: 'app-behavior-counter',
@@ -17,6 +18,8 @@ import {MatIconModule} from '@angular/material/icon';
 export class BehaviorCounterComponent implements OnInit, OnDestroy {
     counter: number = 0;
     private readonly storageKey: string = 'behavior-counter-';
+
+    constructor(private storageService: StorageService) {}
 
     ngOnInit(): void {
         this.loadCounterValue();
@@ -43,15 +46,11 @@ export class BehaviorCounterComponent implements OnInit, OnDestroy {
 
     private saveCounterValue(): void {
         const dateKey = this.getCurrentDateString();
-        localStorage.setItem(this.storageKey + dateKey, this.counter.toString());
+        this.storageService.setBehaviorCounter(dateKey, this.counter);
     }
 
     private loadCounterValue(): void {
         const dateKey = this.getCurrentDateString();
-        const savedValue = localStorage.getItem(this.storageKey + dateKey);
-
-        if (savedValue !== null) {
-            this.counter = parseInt(savedValue, 10);
-        }
+        this.counter = this.storageService.getBehaviorCounter(dateKey);
     }
 }

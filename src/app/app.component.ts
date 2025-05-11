@@ -8,6 +8,7 @@ import {environment} from "../environments/environment";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatMenuModule} from "@angular/material/menu";
+import {StorageService, Theme} from "./service/storage.service";
 
 export interface TabMenueItems {
     text: string;
@@ -56,16 +57,23 @@ export class AppComponent implements OnInit {
     private deferredPrompt: any;
     showInstallButton = false;
 
-    constructor(private router: Router, private snackBar: MatSnackBar, private renderer: Renderer2) {
+    constructor(
+        private router: Router, 
+        private snackBar: MatSnackBar, 
+        private renderer: Renderer2,
+        private storageService: StorageService
+    ) {
         // Navigate to the first tab by default
         this.navigateToTab(0);
+
+        // Migrate existing data to the new storage service
+        this.storageService.migrateData();
     }
 
     ngOnInit(): void {
         // Load saved theme preference
-        const savedTheme = localStorage.getItem('selectedTheme');
-        if (savedTheme) {
-            const theme = JSON.parse(savedTheme);
+        const theme = this.storageService.getTheme();
+        if (theme) {
             // Find the matching theme in availableThemes
             const matchedTheme = this.availableThemes.find(t => t.name === theme.name);
             if (matchedTheme) {
@@ -170,7 +178,7 @@ export class AppComponent implements OnInit {
         // Update current theme
         this.currentTheme = theme;
 
-        // Save theme preference to localStorage
-        localStorage.setItem('selectedTheme', JSON.stringify(theme));
+        // Save theme preference using the storage service
+        this.storageService.setTheme(theme);
     }
 }
