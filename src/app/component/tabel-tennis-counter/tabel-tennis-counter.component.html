@@ -1,7 +1,6 @@
 <div class="counter-container">
     <div class="score-display">
         <div class="player-score">
-            <div class="player-label">Player 1</div>
             <div class="score">{{ player1Score }}</div>
             <button mat-fab color="primary" class="score-button" (play)="incrementPlayer1Score()"
                     (click)="incrementPlayer1Score()">
@@ -10,7 +9,6 @@
         </div>
         <div class="score-divider">:</div>
         <div class="player-score">
-            <div class="player-label">Player 2</div>
             <div class="score">{{ player2Score }}</div>
             <button mat-fab color="accent" class="score-button" (pause)="incrementPlayer2Score()"
                     (click)="incrementPlayer2Score()">
