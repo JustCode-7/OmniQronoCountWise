@@ -4,6 +4,15 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {StorageService} from '../../service/storage.service';
 
+// Interface for the Screen Wake Lock API
+interface WakeLockSentinel {
+    released: boolean;
+
+    release(): Promise<void>;
+
+    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+}
+
 @Component({
     selector: 'app-tabel-tennis-counter',
     standalone: true,
@@ -18,16 +27,54 @@ import {StorageService} from '../../service/storage.service';
 export class TabelTennisCounterComponent implements OnInit, OnDestroy {
     player1Score: number = 0;
     player2Score: number = 0;
-    private readonly storageKey: string = 'table-tennis-counter-';
+    private wakeLock: WakeLockSentinel | null = null;
 
-    constructor(private storageService: StorageService) {}
+    constructor(private storageService: StorageService) {
+    }
 
     ngOnInit(): void {
         this.loadScores();
+        this.requestWakeLock();
     }
 
     ngOnDestroy(): void {
         this.saveScores();
+        this.releaseWakeLock();
+    }
+
+    private async requestWakeLock(): Promise<void> {
+        try {
+            // Check if the Screen Wake Lock API is supported
+            if ('wakeLock' in navigator) {
+                // Request a screen wake lock
+                this.wakeLock = await (navigator as any).wakeLock.request('screen') as WakeLockSentinel;
+                console.log('Wake Lock is active');
+
+                // Add event listener for when the wake lock is released by the system
+                this.wakeLock.addEventListener('release', () => {
+                    console.log('Wake Lock released by system');
+                    this.wakeLock = null;
+                    // Try to re-acquire the wake lock
+                    this.requestWakeLock();
+                });
+            } else {
+                console.log('Wake Lock API not supported');
+            }
+        } catch (err) {
+            console.error(`Error requesting wake lock: ${err}`);
+        }
+    }
+
+    private async releaseWakeLock(): Promise<void> {
+        if (this.wakeLock && !this.wakeLock.released) {
+            try {
+                await this.wakeLock.release();
+                this.wakeLock = null;
+                console.log('Wake Lock released');
+            } catch (err) {
+                console.error(`Error releasing wake lock: ${err}`);
+            }
+        }
     }
 
     incrementPlayer1Score(): void {

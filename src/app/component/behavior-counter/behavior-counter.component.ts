@@ -22,7 +22,6 @@ export class BehaviorCounterComponent implements OnInit, OnDestroy {
     resetHistory: BehaviorCounterReset[] = [];
     showResetHistory: boolean = false;
     lastIncrementTime: string | undefined = undefined;
-    private readonly storageKey: string = 'behavior-counter-';
 
     constructor(private storageService: StorageService) {
     }
