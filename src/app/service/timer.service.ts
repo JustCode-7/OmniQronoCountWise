@@ -67,6 +67,9 @@ export class TimerService {
     }
 
     setInitialTimeValues() {
+        // Check if the pauseList needs to be cleared (if it's from a different day)
+        this.storageService.checkAndClearTimerPauseListIfNeeded();
+
         const timerData = this.storageService.getTimerData();
 
         if (timerData.startTime) {

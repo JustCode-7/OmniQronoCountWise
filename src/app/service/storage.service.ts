@@ -12,6 +12,7 @@ export interface TimerData {
     workTime: string;
     pause: string;
     pauseList: string[];
+    lastUpdated?: string; // Date when the pauseList was last updated
 }
 
 // QR Code interfaces
@@ -71,7 +72,8 @@ export class StorageService {
                 startTime: '09:30',
                 workTime: '07:48',
                 pause: '00:30',
-                pauseList: []
+                pauseList: [],
+                lastUpdated: new Date().toISOString().split('T')[0] // Initialize with today's date
             },
             qrCode: {
                 latestScans: []
@@ -122,17 +124,35 @@ export class StorageService {
 
     setTimerPauseList(pauseList: string[]): void {
         this.appData.timer.pauseList = pauseList;
+        this.appData.timer.lastUpdated = new Date().toISOString().split('T')[0]; // Store just the date part (YYYY-MM-DD)
         this.saveData();
     }
 
     addTimerPause(pause: string): void {
         this.appData.timer.pauseList.push(pause);
+        this.appData.timer.lastUpdated = new Date().toISOString().split('T')[0]; // Store just the date part (YYYY-MM-DD)
         this.saveData();
     }
 
     clearTimerPauseList(): void {
         this.appData.timer.pauseList = [];
+        this.appData.timer.lastUpdated = new Date().toISOString().split('T')[0]; // Store just the date part (YYYY-MM-DD)
         this.saveData();
+    }
+
+    // Check if the pauseList needs to be cleared (if it's from a different day)
+    checkAndClearTimerPauseListIfNeeded(): boolean {
+        const today = new Date().toISOString().split('T')[0]; // Today's date in YYYY-MM-DD format
+        const lastUpdated = this.appData.timer.lastUpdated;
+
+        // If lastUpdated is undefined or from a different day than today, clear the pauseList
+        if (!lastUpdated || lastUpdated !== today) {
+            console.log('Clearing pauseList because it\'s from a different day');
+            this.clearTimerPauseList();
+            return true; // Indicate that the list was cleared
+        }
+
+        return false; // Indicate that the list was not cleared
     }
 
     // QR Code methods
@@ -294,6 +314,8 @@ export class StorageService {
                 const pauseList = localStorage.getItem(key);
                 if (pauseList) {
                     this.appData.timer.pauseList = JSON.parse(pauseList);
+                    // Set lastUpdated to today's date
+                    this.appData.timer.lastUpdated = new Date().toISOString().split('T')[0];
                 }
             }
         }
@@ -322,6 +344,11 @@ export class StorageService {
                     }
                 }
             }
+        }
+
+        // Ensure lastUpdated is set for timer data
+        if (!this.appData.timer.lastUpdated) {
+            this.appData.timer.lastUpdated = new Date().toISOString().split('T')[0];
         }
 
         // Save the migrated data
