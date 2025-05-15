@@ -8,7 +8,7 @@ import {environment} from "../environments/environment";
 import {MatTabsModule} from "@angular/material/tabs";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatMenuModule} from "@angular/material/menu";
-import {StorageService, Theme} from "./service/storage.service";
+import {StorageService} from "./service/storage.service";
 
 export interface TabMenueItems {
     text: string;
@@ -58,8 +58,8 @@ export class AppComponent implements OnInit {
     showInstallButton = false;
 
     constructor(
-        private router: Router, 
-        private snackBar: MatSnackBar, 
+        private router: Router,
+        private snackBar: MatSnackBar,
         private renderer: Renderer2,
         private storageService: StorageService
     ) {
@@ -180,5 +180,15 @@ export class AppComponent implements OnInit {
 
         // Save theme preference using the storage service
         this.storageService.setTheme(theme);
+    }
+
+    // Method to clear the cache (localStorage)
+    clearCache(): void {
+        this.storageService.clearCache();
+        this.snackBar.open('Cache wurde geleert', 'OK', {
+            duration: 3000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+        });
     }
 }

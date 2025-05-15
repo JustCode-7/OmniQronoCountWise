@@ -256,6 +256,13 @@ export class StorageService {
         localStorage.removeItem(key);
     }
 
+    // Clear all data from localStorage and reset to defaults
+    clearCache(): void {
+        localStorage.clear();
+        this.appData = this.loadData();
+        this.saveData();
+    }
+
     // Migration method to move data from individual localStorage items to the centralized storage
     migrateData(): void {
         // Migrate theme data
