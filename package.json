@@ -1,6 +1,6 @@
 {
   "name": "omni-qrono-count-wise",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "scripts": {
     "ng": "ng",
     "install-deps": "npm i",
