@@ -93,11 +93,37 @@ export class TabelTennisCounterComponent implements OnInit, OnDestroy, AfterView
     }
 
     incrementPlayer1ScoreWithPlay() {
-        this.incrementPlayer1Score();
+        // Play the audio to trigger the MediaSession play event
+        if (this.dummyAudio && this.dummyAudio.nativeElement) {
+            const audioElement = this.dummyAudio.nativeElement;
+            audioElement.play().then(() => {
+                console.log('Audio played, MediaSession play event should be triggered');
+            }).catch(error => {
+                console.error('Error playing audio:', error);
+                // Fallback if play fails (e.g., user interaction required)
+                this.incrementPlayer1Score();
+            });
+        }
     }
 
     incrementPlayer2ScoreWithPause() {
-        this.incrementPlayer2Score();
+        if (this.dummyAudio && this.dummyAudio.nativeElement) {
+            const audioElement = this.dummyAudio.nativeElement;
+            if (!audioElement.paused) {
+                audioElement.pause();
+                console.log('Audio paused, MediaSession pause event should be triggered');
+            } else {
+                // If already paused, try to play first and then pause
+                audioElement.play().then(() => {
+                    audioElement.pause();
+                    console.log('Audio played and paused, MediaSession pause event should be triggered');
+                }).catch(error => {
+                    console.error('Error playing audio before pause:', error);
+                    // Fallback if play fails
+                    this.incrementPlayer2Score();
+                });
+            }
+        }
     }
 
     private setupMediaSession(): void {
