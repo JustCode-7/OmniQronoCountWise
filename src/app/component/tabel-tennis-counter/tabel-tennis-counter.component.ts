@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -24,22 +24,27 @@ interface WakeLockSentinel {
     templateUrl: './tabel-tennis-counter.component.html',
     styleUrls: ['./tabel-tennis-counter.component.scss']
 })
-export class TabelTennisCounterComponent implements OnInit, OnDestroy {
+export class TabelTennisCounterComponent implements OnInit, OnDestroy, AfterViewInit {
+    @ViewChild('dummyAudio') dummyAudio!: ElementRef<HTMLAudioElement>;
+
     player1Score: number = 0;
     player2Score: number = 0;
     private wakeLock: WakeLockSentinel | null = null;
-
-    constructor(private storageService: StorageService) {
-    }
+    private storageService: StorageService = inject(StorageService)
 
     ngOnInit(): void {
         this.loadScores();
         this.requestWakeLock();
     }
 
+    ngAfterViewInit(): void {
+        this.setupMediaSession();
+    }
+
     ngOnDestroy(): void {
         this.saveScores();
         this.releaseWakeLock();
+        this.cleanupMediaSession();
     }
 
     private async requestWakeLock(): Promise<void> {
@@ -77,15 +82,86 @@ export class TabelTennisCounterComponent implements OnInit, OnDestroy {
         }
     }
 
-    incrementPlayer1Score(): void {
+    incrementPlayer1Score() {
         this.player1Score++;
         this.saveScores();
     }
 
-    incrementPlayer2Score(): void {
+    incrementPlayer2Score() {
         this.player2Score++;
         this.saveScores();
     }
+
+    incrementPlayer1ScoreWithPlay() {
+        // Play the audio to trigger the MediaSession play event
+        if (this.dummyAudio && this.dummyAudio.nativeElement) {
+            const audioElement = this.dummyAudio.nativeElement;
+            audioElement.play().then(() => {
+                console.log('Audio played, MediaSession play event should be triggered');
+            }).catch(error => {
+                console.error('Error playing audio:', error);
+                // Fallback if play fails (e.g., user interaction required)
+                this.incrementPlayer1Score();
+            });
+        }
+    }
+
+    incrementPlayer2ScoreWithPause() {
+        if (this.dummyAudio && this.dummyAudio.nativeElement) {
+            const audioElement = this.dummyAudio.nativeElement;
+            if (!audioElement.paused) {
+                audioElement.pause();
+                console.log('Audio paused, MediaSession pause event should be triggered');
+            } else {
+                // If already paused, try to play first and then pause
+                audioElement.play().then(() => {
+                    audioElement.pause();
+                    console.log('Audio played and paused, MediaSession pause event should be triggered');
+                }).catch(error => {
+                    console.error('Error playing audio before pause:', error);
+                    // Fallback if play fails
+                    this.incrementPlayer2Score();
+                });
+            }
+        }
+    }
+
+    private setupMediaSession(): void {
+        if ('mediaSession' in navigator) {
+            // Set a silent audio file for the dummy audio element
+            this.dummyAudio.nativeElement.load();
+
+            // Set metadata for the media session
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: 'Table Tennis Counter',
+                artist: 'OmniQronoCountWise',
+                album: 'Sports Counter'
+            });
+
+            // Set action handlers for play and pause
+            navigator.mediaSession.setActionHandler('play', () => {
+                this.incrementPlayer1ScoreWithPlay();
+            });
+
+            navigator.mediaSession.setActionHandler('pause', () => {
+                this.incrementPlayer2ScoreWithPause();
+            });
+
+            console.log('MediaSession handlers set up');
+        } else {
+            console.log('MediaSession API not supported');
+        }
+    }
+
+    private cleanupMediaSession(): void {
+        if ('mediaSession' in navigator) {
+            // Remove action handlers
+            navigator.mediaSession.setActionHandler('play', null);
+            navigator.mediaSession.setActionHandler('pause', null);
+            console.log('MediaSession handlers cleaned up');
+        }
+    }
+
 
     resetScores(): void {
         this.player1Score = 0;
