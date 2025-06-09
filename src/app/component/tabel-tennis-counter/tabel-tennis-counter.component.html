@@ -2,7 +2,7 @@
     <div class="score-display">
         <div class="player-score">
             <div class="score">{{ player1Score }}</div>
-            <button mat-fab color="primary" class="score-button"
+            <button mat-fab color="primary" class="score-button" (play)="incrementPlayer1ScoreWithPlay()"
                     (click)="incrementPlayer1Score()">
                 <mat-icon>add</mat-icon>
             </button>
@@ -10,7 +10,7 @@
         <div class="score-divider">:</div>
         <div class="player-score">
             <div class="score">{{ player2Score }}</div>
-            <button mat-fab color="accent" class="score-button"
+            <button mat-fab color="accent" class="score-button" (pause)="incrementPlayer2ScoreWithPause()"
                     (click)="incrementPlayer2Score()">
                 <mat-icon>add</mat-icon>
             </button>
@@ -23,7 +23,6 @@
         </button>
     </div>
     <!-- Hidden audio element to enable MediaSession API -->
-    <audio #dummyAudio (play)="incrementPlayer1ScoreWithPlay()" (pause)="incrementPlayer2ScoreWithPause()"
-           src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA" loop
+    <audio #dummyAudio src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA" loop
            style="display: none;"></audio>
 </div>
