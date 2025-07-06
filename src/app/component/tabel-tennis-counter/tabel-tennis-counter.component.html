@@ -2,16 +2,14 @@
     <div class="score-display">
         <div class="player-score">
             <div class="score">{{ player1Score }}</div>
-            <button mat-fab color="primary" class="score-button" (play)="incrementPlayer1Score()"
-                    (click)="incrementPlayer1Score()">
+            <button mat-fab color="primary" class="score-button" (click)="incrementPlayer1Score()">
                 <mat-icon>add</mat-icon>
             </button>
         </div>
         <div class="score-divider">:</div>
         <div class="player-score">
             <div class="score">{{ player2Score }}</div>
-            <button mat-fab color="accent" class="score-button" (pause)="incrementPlayer2Score()"
-                    (click)="incrementPlayer2Score()">
+            <button mat-fab color="accent" class="score-button" (click)="incrementPlayer2Score()">
                 <mat-icon>add</mat-icon>
             </button>
         </div>

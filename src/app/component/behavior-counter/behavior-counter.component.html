@@ -1,5 +1,5 @@
 <div class="counter-container">
-    <div class="displays-wrapper">
+    <div class="displays-wrapper d-flex flex-column">
         <div class="display-container">
             <div class="clock-display">
                 {{ counter < 10 ? '0' + counter : counter }}
@@ -11,22 +11,20 @@
             </div>
         </div>
     </div>
-    <div class="reset-button-container">
-        <button mat-raised-button color="warn" class="reset-button" (click)="resetCounter()">
+    <div class="reset-button-container d-flex row w-25">
+        <button mat-raised-button color="warn" class="reset-button mb-4" (click)="resetCounter(resetHistory)">
             <mat-icon>refresh</mat-icon>
             Reset
+        </button>
+        <button mat-raised-button color="accent" class="reset-button" (click)="toggleResetHistory()"
+                *ngIf="resetHistory.length > 0">
+            <mat-icon>history</mat-icon>
         </button>
     </div>
     <div class="button-container">
         <div class="buttons-row">
             <button mat-fab color="primary" class="plus-button" (click)="incrementCounter()">
                 <mat-icon>add</mat-icon>
-            </button>
-
-            <!-- Toggle button for reset history -->
-            <button mat-icon-button color="accent" class="history-toggle-button" (click)="toggleResetHistory()"
-                    *ngIf="resetHistory.length > 0">
-                <mat-icon>history</mat-icon>
             </button>
         </div>
 

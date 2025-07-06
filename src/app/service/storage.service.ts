@@ -140,16 +140,17 @@ export class StorageService {
         this.saveData();
     }
 
-    // Check if the pauseList needs to be cleared (if it's from a different day)
+    // Check if the pauseList is from a different day (but no longer automatically clears it)
     checkAndClearTimerPauseListIfNeeded(): boolean {
         const today = new Date().toISOString().split('T')[0]; // Today's date in YYYY-MM-DD format
         const lastUpdated = this.appData.timer.lastUpdated;
 
-        // If lastUpdated is undefined or from a different day than today, clear the pauseList
+        // Update lastUpdated to today's date if it's different
         if (!lastUpdated || lastUpdated !== today) {
-            console.log('Clearing pauseList because it\'s from a different day');
-            this.clearTimerPauseList();
-            return true; // Indicate that the list was cleared
+            console.log('Data model from a different day detected, but not clearing it as per requirements');
+            this.appData.timer.lastUpdated = today;
+            this.saveData();
+            return false; // Indicate that the list was not cleared
         }
 
         return false; // Indicate that the list was not cleared

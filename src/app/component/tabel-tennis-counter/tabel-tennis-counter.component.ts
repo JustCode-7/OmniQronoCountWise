@@ -13,6 +13,30 @@ interface WakeLockSentinel {
     addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
 }
 
+// Interface for the MediaSession API
+interface MediaMetadataInit {
+    title?: string;
+    artist?: string;
+    album?: string;
+    artwork?: Array<{
+        src: string;
+        sizes?: string;
+        type?: string;
+    }>;
+}
+
+declare class MediaMetadata {
+    constructor(init?: MediaMetadataInit);
+    title: string;
+    artist: string;
+    album: string;
+    artwork: Array<{
+        src: string;
+        sizes: string;
+        type: string;
+    }>;
+}
+
 @Component({
     selector: 'app-tabel-tennis-counter',
     standalone: true,
@@ -28,6 +52,7 @@ export class TabelTennisCounterComponent implements OnInit, OnDestroy {
     player1Score: number = 0;
     player2Score: number = 0;
     private wakeLock: WakeLockSentinel | null = null;
+    private audioElement: HTMLAudioElement | null = null;
 
     constructor(private storageService: StorageService) {
     }
@@ -35,11 +60,58 @@ export class TabelTennisCounterComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.loadScores();
         this.requestWakeLock();
+        this.setupMediaSession();
+    }
+
+    private setupMediaSession(): void {
+        if ('mediaSession' in navigator) {
+            // Set metadata for the media session
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: 'Table Tennis Counter',
+                artist: 'OmniQronoCountWise',
+                album: 'Sports Counter'
+            });
+
+            // Set action handlers for play and pause
+            navigator.mediaSession.setActionHandler('play', () => {
+                console.log('Media play button pressed');
+                this.incrementPlayer1Score();
+            });
+
+            navigator.mediaSession.setActionHandler('pause', () => {
+                console.log('Media pause button pressed');
+                this.incrementPlayer2Score();
+            });
+
+            // Create a silent audio element to enable media session controls
+            this.audioElement = document.createElement('audio');
+            this.audioElement.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
+            this.audioElement.loop = true;
+            this.audioElement.volume = 0.001; // Nearly silent
+            this.audioElement.play().catch(error => {
+                console.error('Error playing audio:', error);
+            });
+        } else {
+            console.log('MediaSession API not supported');
+        }
     }
 
     ngOnDestroy(): void {
         this.saveScores();
         this.releaseWakeLock();
+
+        // Clean up audio element
+        if (this.audioElement) {
+            this.audioElement.pause();
+            this.audioElement.src = '';
+            this.audioElement = null;
+        }
+
+        // Clear media session handlers if supported
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.setActionHandler('play', null);
+            navigator.mediaSession.setActionHandler('pause', null);
+        }
     }
 
     private async requestWakeLock(): Promise<void> {

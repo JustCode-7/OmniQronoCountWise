@@ -177,9 +177,9 @@ export class TimerService {
     }
 
     private deleteOldPauseList() {
-        // With the new storage service, we don't need to manually delete old pause lists
-        // as they are stored in a structured way. We can just clear the current pause list.
-        this.storageService.clearTimerPauseList();
+        // As per requirements, we no longer automatically reset the data model
+        // This method is kept for backward compatibility but doesn't clear the pause list
+        console.log('deleteOldPauseList called, but not clearing data as per requirements');
     }
 
     private getCurrentPauseListKey() {
