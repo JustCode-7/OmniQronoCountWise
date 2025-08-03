@@ -53,11 +53,7 @@ export class BehaviorCounterComponent implements OnInit, OnDestroy {
         this.storageService.setBehaviorCounterLastIncrementTime(dateKey, this.lastIncrementTime);
     }
 
-    resetCounter(currentHistory: BehaviorCounterReset[]): void {
-        if (new Date().getDate() === new Date(currentHistory[0].timestamp).getDate()) {
-            // Do not reset the counter if the current date is the same as the reset date
-            return;
-        }
+    resetCounter(): void {
         // Get the current reset history before showing the dialog
         const resetHistory = this.storageService.getLastThreeDaysResetHistory();
 
