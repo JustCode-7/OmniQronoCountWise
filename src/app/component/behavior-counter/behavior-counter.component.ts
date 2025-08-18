@@ -99,6 +99,11 @@ export class BehaviorCounterComponent implements OnInit, OnDestroy {
         return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
     }
 
+    private getYesterdayDateString(): string {
+        const today = new Date();
+        return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate() - 1}`;
+    }
+
     private saveCounterValue(): void {
         const dateKey = this.getCurrentDateString();
         this.storageService.setBehaviorCounter(dateKey, this.counter);
@@ -106,7 +111,8 @@ export class BehaviorCounterComponent implements OnInit, OnDestroy {
 
     private loadCounterValue(): void {
         const dateKey = this.getCurrentDateString();
-        this.counter = this.storageService.getBehaviorCounter(dateKey);
+        const yesterdayKey = this.getYesterdayDateString();
+        this.counter = this.storageService.getBehaviorCounter(dateKey, yesterdayKey);
         this.lastIncrementTime = this.storageService.getBehaviorCounterLastIncrementTime(dateKey);
     }
 }

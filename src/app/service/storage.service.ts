@@ -191,8 +191,8 @@ export class StorageService {
     }
 
     // Behavior Counter methods
-    getBehaviorCounter(date: string): number {
-        return this.appData.behaviorCounter[date]?.counter || 0;
+    getBehaviorCounter(date: string, yesterday: string): number {
+        return this.appData.behaviorCounter[date]?.counter ? this.appData.behaviorCounter[date].counter : (this.appData.behaviorCounter[yesterday]?.counter || 0)
     }
 
     setBehaviorCounter(date: string, counter: number): void {
