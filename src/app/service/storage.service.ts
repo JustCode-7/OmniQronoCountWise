@@ -46,6 +46,7 @@ export interface AppData {
     qrCode: QrCodeData;
     tableTennisScores: Record<string, TableTennisScores>;
     behaviorCounter: Record<string, BehaviorCounterData>;
+    variableCounters: Record<string, number[]>;
 }
 
 @Injectable({
@@ -81,7 +82,8 @@ export class StorageService {
                 latestScans: []
             },
             tableTennisScores: {},
-            behaviorCounter: {}
+            behaviorCounter: {},
+            variableCounters: {}
         };
     }
 
@@ -164,6 +166,16 @@ export class StorageService {
 
     setTableTennisScores(date: string, scores: TableTennisScores): void {
         this.appData.tableTennisScores[date] = scores;
+        this.saveData();
+    }
+
+    // Variable Counter methods
+    getVariableCounters(date: string): number[] | null {
+        return this.appData.variableCounters[date] || null;
+    }
+
+    setVariableCounters(date: string, values: number[]): void {
+        this.appData.variableCounters[date] = values;
         this.saveData();
     }
 

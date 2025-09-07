@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
         {text: "Bad-Behavior-Counter", route: "behavior-counter"},
         {text: "Work-Timer", route: "timer"},
         {text: "QR-Code", route: "qr"},
-        {text: "TT-Counter", route: "tt-counter"},
+        {text: "Counter", route: "counter"},
     ];
 
     // Available themes

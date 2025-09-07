@@ -1,0 +1,24 @@
+<div class="counter-container">
+    <div class="score-display">
+        <ng-container *ngFor="let value of counters; let i = index">
+            <div class="player-score">
+                <div class="score">{{ value }}</div>
+                <mat-label> Counter {{ i + 1 }}</mat-label>
+                <button mat-fab color="primary" class="score-button" (click)="increment(i)">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+            <div class="score-divider" *ngIf="i < counters.length - 1"></div>
+        </ng-container>
+    </div>
+    <div class="controls">
+        <button mat-raised-button color="warn" class="reset-button" (click)="reset()">
+            <mat-icon>refresh</mat-icon>
+            Reset
+        </button>
+        <button mat-raised-button color="warn" class="reset-button ms-2" (click)="renew()">
+            <mat-icon>restore_from_trash</mat-icon>
+            Renew
+        </button>
+    </div>
+</div>
