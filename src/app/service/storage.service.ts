@@ -36,6 +36,7 @@ export interface BehaviorCounterData {
     counter: number;
     resetHistory?: BehaviorCounterReset[];
     lastIncrementTime?: string;
+    lastIncrementTimeHistory?: string[]
 }
 
 // App Data interface
@@ -53,6 +54,7 @@ export interface AppData {
 export class StorageService {
     private readonly STORAGE_KEY = 'app_data';
     private appData: AppData;
+    LAST_INCREMENT_TIME_DEFAULT = "--:--:--";
 
     constructor() {
         this.appData = this.loadData();
@@ -118,24 +120,8 @@ export class StorageService {
         this.saveData();
     }
 
-    getTimerPauseList(): string[] {
-        return this.appData.timer.pauseList;
-    }
-
     setTimerPauseList(pauseList: string[]): void {
         this.appData.timer.pauseList = pauseList;
-        this.appData.timer.lastUpdated = new Date().toISOString().split('T')[0]; // Store just the date part (YYYY-MM-DD)
-        this.saveData();
-    }
-
-    addTimerPause(pause: string): void {
-        this.appData.timer.pauseList.push(pause);
-        this.appData.timer.lastUpdated = new Date().toISOString().split('T')[0]; // Store just the date part (YYYY-MM-DD)
-        this.saveData();
-    }
-
-    clearTimerPauseList(): void {
-        this.appData.timer.pauseList = [];
         this.appData.timer.lastUpdated = new Date().toISOString().split('T')[0]; // Store just the date part (YYYY-MM-DD)
         this.saveData();
     }
@@ -166,15 +152,6 @@ export class StorageService {
         this.saveData();
     }
 
-    addQrCodeScan(scan: string): void {
-        const scans = this.appData.qrCode.latestScans;
-        if (scans.length > 5) {
-            scans.shift();
-        }
-        scans.push(scan);
-        this.saveData();
-    }
-
     clearQrCodeScans(): void {
         this.appData.qrCode.latestScans = [];
         this.saveData();
@@ -191,31 +168,43 @@ export class StorageService {
     }
 
     // Behavior Counter methods
-    getBehaviorCounter(date: string, yesterday: string): number {
-        return this.appData.behaviorCounter[date]?.counter ? this.appData.behaviorCounter[date].counter : (this.appData.behaviorCounter[yesterday]?.counter || 0)
+    getBehaviorCounter(date: string, yesterday: string): BehaviorCounterData {
+        return this.appData.behaviorCounter[date] ? this.appData.behaviorCounter[date] : (this.appData.behaviorCounter[yesterday] || {
+            counter: 0,
+            resetHistory: [],
+            lastIncrementTime: this.LAST_INCREMENT_TIME_DEFAULT,
+            lastIncrementTimeHistory: []
+        })
     }
 
     setBehaviorCounter(date: string, counter: number): void {
         if (!this.appData.behaviorCounter[date]) {
-            this.appData.behaviorCounter[date] = {counter, resetHistory: []};
+            this.appData.behaviorCounter[date] = {counter, resetHistory: [], lastIncrementTimeHistory: []};
         } else {
             this.appData.behaviorCounter[date].counter = counter;
             if (!this.appData.behaviorCounter[date].resetHistory) {
                 this.appData.behaviorCounter[date].resetHistory = [];
             }
+            if (!this.appData.behaviorCounter[date].lastIncrementTimeHistory) {
+                this.appData.behaviorCounter[date].lastIncrementTimeHistory = [];
+            }
         }
         this.saveData();
     }
 
-    getBehaviorCounterLastIncrementTime(date: string): string | undefined {
-        return this.appData.behaviorCounter[date]?.lastIncrementTime || undefined;
-    }
-
-    setBehaviorCounterLastIncrementTime(date: string, time: string | undefined): void {
+    setBehaviorCounterLastIncrementTime(date: string, time: string): void {
         if (!this.appData.behaviorCounter[date]) {
-            this.appData.behaviorCounter[date] = {counter: 0, resetHistory: [], lastIncrementTime: time};
+            this.appData.behaviorCounter[date] = {
+                counter: 0,
+                resetHistory: [],
+                lastIncrementTime: time,
+                lastIncrementTimeHistory: []
+            };
         } else {
             this.appData.behaviorCounter[date].lastIncrementTime = time;
+            if (this.LAST_INCREMENT_TIME_DEFAULT !== time) {
+                this.appData.behaviorCounter[date].lastIncrementTimeHistory?.push(time)
+            }
         }
         this.saveData();
     }
@@ -261,20 +250,6 @@ export class StorageService {
 
         // Return only the last 3 entries
         return result.slice(0, 3);
-    }
-
-    // Generic methods for any data
-    getData<T>(key: string): T | null {
-        const data = localStorage.getItem(key);
-        return data ? JSON.parse(data) : null;
-    }
-
-    setData<T>(key: string, value: T): void {
-        localStorage.setItem(key, JSON.stringify(value));
-    }
-
-    removeData(key: string): void {
-        localStorage.removeItem(key);
     }
 
     // Clear all data from localStorage and reset to defaults

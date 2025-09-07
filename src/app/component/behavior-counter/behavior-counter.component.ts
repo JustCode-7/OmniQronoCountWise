@@ -6,6 +6,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {BehaviorCounterReset, StorageService} from '../../service/storage.service';
 import {ResetHistoryDialogComponent} from './reset-history-dialog/reset-history-dialog.component';
+import {CounterListDialogComponent} from "./counter-list-dialog/counter-list-dialog.component";
 
 @Component({
     selector: 'app-behavior-counter',
@@ -24,11 +25,11 @@ export class BehaviorCounterComponent implements OnInit, OnDestroy {
     counter: number = 0;
     resetHistory: BehaviorCounterReset[] = [];
     showResetHistory: boolean = false;
-    lastIncrementTime: string | undefined = undefined;
+    lastIncrementTime: string = this.storageService.LAST_INCREMENT_TIME_DEFAULT;
 
     constructor(
         private storageService: StorageService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
     ) {
     }
 
@@ -68,11 +69,11 @@ export class BehaviorCounterComponent implements OnInit, OnDestroy {
                 // User confirmed the reset
                 const valueBeforeReset = this.counter;
                 this.counter = 0;
-                this.lastIncrementTime = undefined;
+                this.lastIncrementTime = this.storageService.LAST_INCREMENT_TIME_DEFAULT;
 
                 const dateKey = this.getCurrentDateString();
                 this.storageService.addBehaviorCounterReset(dateKey, valueBeforeReset);
-                this.storageService.setBehaviorCounterLastIncrementTime(dateKey, undefined);
+                this.storageService.setBehaviorCounterLastIncrementTime(dateKey, this.storageService.LAST_INCREMENT_TIME_DEFAULT);
                 this.saveCounterValue();
 
                 // Reload reset history after adding a new reset
@@ -87,7 +88,7 @@ export class BehaviorCounterComponent implements OnInit, OnDestroy {
 
     formatTimestamp(timestamp: string): string {
         const date = new Date(timestamp);
-        return date.toLocaleString();
+        return date.toLocaleDateString();
     }
 
     private loadResetHistory(): void {
@@ -112,7 +113,18 @@ export class BehaviorCounterComponent implements OnInit, OnDestroy {
     private loadCounterValue(): void {
         const dateKey = this.getCurrentDateString();
         const yesterdayKey = this.getYesterdayDateString();
-        this.counter = this.storageService.getBehaviorCounter(dateKey, yesterdayKey);
-        this.lastIncrementTime = this.storageService.getBehaviorCounterLastIncrementTime(dateKey);
+        this.counter = this.storageService.getBehaviorCounter(dateKey, yesterdayKey).counter;
+        this.lastIncrementTime = this.storageService.getBehaviorCounter(dateKey, yesterdayKey).lastIncrementTime ?? this.storageService.LAST_INCREMENT_TIME_DEFAULT;
+    }
+
+    toggleDailyResetHistory() {
+        const dateKey = this.getCurrentDateString();
+        const counterDataLastIncrementTimeHistory = this.storageService.getBehaviorCounter(dateKey, "undefined").lastIncrementTimeHistory
+        if (counterDataLastIncrementTimeHistory && counterDataLastIncrementTimeHistory.length > 0) {
+            this.dialog.open(CounterListDialogComponent, {
+                data: {conuterDataLastIncrementTimeHistory: counterDataLastIncrementTimeHistory}
+            });
+        }
+
     }
 }

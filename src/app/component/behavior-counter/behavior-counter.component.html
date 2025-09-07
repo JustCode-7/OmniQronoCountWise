@@ -5,20 +5,21 @@
                 {{ counter < 10 ? '0' + counter : counter }}
             </div>
         </div>
-        <div class="time-container" *ngIf="lastIncrementTime">
-            <div class="time-display">
-                {{ lastIncrementTime }}
+        <div class="d-flex flex-row">
+            <div class="time-container" *ngIf="lastIncrementTime">
+                <div class="time-display">
+                    {{ lastIncrementTime }}
+                </div>
             </div>
+            <button mat-mini-fab color="accent mx-1 my-1 py-1 px-1" class="" (click)="toggleDailyResetHistory()">
+                <mat-icon>history</mat-icon>
+            </button>
         </div>
     </div>
     <div class="reset-button-container d-flex row w-25">
         <button mat-raised-button color="warn" class="reset-button mb-4" (click)="resetCounter()">
             <mat-icon>refresh</mat-icon>
             Reset
-        </button>
-        <button mat-raised-button color="accent" class="reset-button" (click)="toggleResetHistory()"
-                *ngIf="resetHistory.length > 0">
-            <mat-icon>history</mat-icon>
         </button>
     </div>
     <div class="button-container">
@@ -28,15 +29,24 @@
             </button>
         </div>
 
-        <!-- Reset history list -->
-        <div *ngIf="showResetHistory && resetHistory.length > 0">
-            <mat-list class="d-flex flex-column">
-                <mat-list-item *ngFor="let reset of resetHistory">
-                    <mat-icon>history</mat-icon>
-                    <b>{{ reset.value < 10 ? '0' + reset.value : reset.value }}</b>
-                    last: {{ formatTimestamp(reset.timestamp) }}
-                </mat-list-item>
-            </mat-list>
+        <div class="reset-button-container d-flex row w-25 pt-5">
+            <button mat-raised-button color="accent" class="reset-button" (click)="toggleResetHistory()"
+                    *ngIf="resetHistory.length > 0">
+                <mat-icon>history</mat-icon>
+            </button>
+            <!-- Reset history list -->
+            <div class="d-flex justify-content-center">
+                <div *ngIf="showResetHistory && resetHistory.length > 0">
+                    <mat-list class="d-flex flex-column">
+                        <mat-list-item *ngFor="let reset of resetHistory">
+                            <mat-icon>history</mat-icon>
+                            <b>{{ reset.value < 10 ? '0' + reset.value : reset.value }}</b>
+                            counted on: {{ formatTimestamp(reset.timestamp) }}
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+            </div>
         </div>
+
     </div>
 </div>
