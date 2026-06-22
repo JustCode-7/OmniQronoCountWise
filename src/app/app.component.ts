@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
     public title = 'OmniQronoCountWise';
     appVersion: string = environment.appVersion;
     tabs: TabMenueItems[] = [
-        {text: "Bad-Behavior-Counter", route: "behavior-counter"},
+        {text: "(Bad)Behavior-Counter", route: "behavior-counter"},
         {text: "ZufallsGen", route: "randomize"},
         {text: "Planningpoker", route: "planning"},
         {text: "Work-Timer", route: "timer"},
