@@ -1,0 +1,23 @@
+<mat-expansion-panel #panel class="w-100">
+  <mat-expansion-panel-header>
+    <button (click)="panel.closed? panel.open() : panel.close()" mat-icon-button>
+      <mat-icon>input</mat-icon>
+    </button>
+  </mat-expansion-panel-header>
+  <div class="d-inline-flex flex-column align-content-center">
+    <mat-card [matTooltip]="'click to open explorer'" class="d-inline-flex m-1 justify-content-center">
+
+      <button (click)="openExplorerForfileImport(file)" mat-icon-button>
+        <mat-icon>explore</mat-icon>
+      </button>
+    </mat-card>
+    <mat-card [matTooltip]="'drag and drop your text files here'" [ngStyle]="{'background-color': dragAndDropColor}"
+              class="d-inline-flex m-1 justify-content-center">
+      <input #file [multiple]="false" [ngStyle]="{'display':'none'}" type="file"/>
+      <button mat-icon-button>
+        <mat-icon class="fs-3">drag_indicator</mat-icon>
+      </button>
+    </mat-card>
+  </div>
+</mat-expansion-panel>
+

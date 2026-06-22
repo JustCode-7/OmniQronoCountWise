@@ -1,4 +1,4 @@
-import {Component, OnInit, Renderer2} from '@angular/core';
+import {Component, inject, OnInit, Renderer2} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Router, RouterOutlet} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -9,6 +9,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatMenuModule} from "@angular/material/menu";
 import {StorageService} from "./service/storage.service";
+import {PwaInstallService} from "./service/pwa-install.service";
 
 export interface TabMenueItems {
     text: string;
@@ -36,6 +37,8 @@ export class AppComponent implements OnInit {
     appVersion: string = environment.appVersion;
     tabs: TabMenueItems[] = [
         {text: "Bad-Behavior-Counter", route: "behavior-counter"},
+        {text: "ZufallsGen", route: "randomize"},
+        {text: "Planningpoker", route: "planning"},
         {text: "Work-Timer", route: "timer"},
         {text: "QR-Code", route: "qr"},
         {text: "Counter", route: "counter"},
@@ -53,9 +56,7 @@ export class AppComponent implements OnInit {
     // Current theme
     currentTheme = this.availableThemes[0];
 
-    // Property to store the deferred installation prompt
-    private deferredPrompt: any;
-    showInstallButton = false;
+    private readonly pwa = inject(PwaInstallService);
 
     constructor(
         private router: Router,
@@ -85,27 +86,8 @@ export class AppComponent implements OnInit {
             this.changeTheme(this.availableThemes[0]);
         }
 
-        // Listen for the beforeinstallprompt event
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent the default browser install prompt
-            e.preventDefault();
-            // Store the event for later use
-            this.deferredPrompt = e;
-            // Show the install button
-            this.showInstallButton = true;
 
-            // Show a snackbar notification to prompt installation
-            this.showInstallPrompt();
-        });
-
-        // Listen for the appinstalled event
-        window.addEventListener('appinstalled', () => {
-            // Hide the install button when the app is installed
-            this.showInstallButton = false;
-            // Clear the deferred prompt
-            this.deferredPrompt = null;
-            console.log('App was installed');
-        });
+        this.pwa.askToInstall();
     }
 
     navigateToTab(index: number): void {
@@ -116,42 +98,7 @@ export class AppComponent implements OnInit {
 
     // Method to show the installation prompt
     installApp(): void {
-        if (!this.deferredPrompt) {
-            return;
-        }
-
-        // Show the installation prompt
-        this.deferredPrompt.prompt();
-
-        // Wait for the user to respond to the prompt
-        this.deferredPrompt.userChoice.then((choiceResult: { outcome: string }) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('User accepted the install prompt');
-            } else {
-                console.log('User dismissed the install prompt');
-            }
-            // Clear the deferred prompt variable
-            this.deferredPrompt = null;
-            // Hide the install button
-            this.showInstallButton = false;
-        });
-    }
-
-    // Method to show a snackbar notification prompting installation
-    showInstallPrompt(): void {
-        const snackBarRef = this.snackBar.open(
-            'Diese App kann installiert werden',
-            'Installieren',
-            {
-                duration: 10000,
-                horizontalPosition: 'center',
-                verticalPosition: 'bottom',
-            }
-        );
-
-        snackBarRef.onAction().subscribe(() => {
-            this.installApp();
-        });
+        this.pwa.triggerInstall()
     }
 
     // Method to change the theme

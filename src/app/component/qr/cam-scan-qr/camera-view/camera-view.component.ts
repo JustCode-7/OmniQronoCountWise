@@ -25,6 +25,7 @@ export class CameraViewComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         if ('mediaDevices' in navigator) {
+            this.dialogRef.updateSize('200%', '75%');
             this.streamVideo();
         }
     }

@@ -1,0 +1,13 @@
+<div class="mb-3 w-50 mx-2">
+  <mat-form-field (click)="value=''" (keydown.enter)="addName(value)">
+    <mat-label class="justify-content-between">Text Input
+    </mat-label>
+    <div class="flex-row d-flex flex-nowrap">
+      <input [(ngModel)]="value" matInput type="text">
+      <button (click)="addName(value)" color="accent"
+              mat-icon-button>
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </mat-form-field>
+</div>

@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="d-flex justify-center justify-content-center bd-highlight mt-3">
+    <button (click)="randomizedService.reloadFromCache()" class="me-4" color="accent" mat-raised-button>
+      <mat-icon>refresh</mat-icon>
+      reload list
+    </button>
+    <button (click)="randomizedService.clearCache()" color="accent" mat-raised-button>
+      <mat-icon>clear_all</mat-icon>
+      clear list
+    </button>
+  </div>
+  <div class="d-flex justify-center justify-content-center bd-highlight mt-3 mb-3">
+    <button (click)="randomizedService.randomize()" color="primary"
+            mat-raised-button>
+      <mat-icon>shuffle</mat-icon>
+      randomize
+    </button>
+    <div class="w-25 ms-3 mt-1">
+      <mat-select placeholder=" random picks ? ">
+        <div *ngFor="let item of randomizedService.getListLengthAsValues()">
+          <mat-option (click)="randomizedService._picks = item"
+                      value="{{item}}">{{ item }}
+          </mat-option>
+        </div>
+      </mat-select>
+    </div>
+  </div>
+  <mat-accordion>
+    <mat-expansion-panel expanded="true">
+      <mat-expansion-panel-header>
+        <mat-panel-description>
+          randomize list
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-hint class="text-color-red">click on item to remove it</mat-hint>
+      <div *ngFor="let name of randomizedService._names" class="d-flex justify-center flex-column">
+        <mat-card (click)="randomizedService.removeName(name)" class="m-1" id="{{name}}">
+          <mat-card-title>
+            {{ name }}
+          </mat-card-title>
+        </mat-card>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
